@@ -162,13 +162,15 @@
         <div>
             <ul>
                 <li>
-                    <md-card ui-sref="app.home"  class="card  cardboxblackslim box_shape  ">
+                    <md-card ui-sref="app.home" ng-click="novoCadastro()" class="card  cardboxblackslim box_shape  ">
                      <h2 class="START-NOW"  > New research </h2>
                      
                      <img   src="img/seta.png"
                             class="icn_arrow">
                     
                     </md-card>
+                    <button ng-click="salvar()"  > salvar</button>
+                    <button ng-click="novoCadastro()"  > novo</button>
           <pre>{{cliente | json}}</pre>
           <pre>{{user | json}}</pre>
                 </li>

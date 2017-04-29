@@ -54,28 +54,39 @@ var cont = 0 ;
 cont ++
    
    var novoCliente = function() {
-        var postsRef = ref.child("cadastros");
-        var newPostRef = postsRef.push();
+       // var postsRef = ref.child("cadastros");
+    //    var newPostRef = postsRef.push();
 
-        newPostRef.set({
-            author: "gracehop",
-            title: "Announcing COBOL, a New Programming Language",
-            time: cont
-        });
+    //    newPostRef.set({
+    //        author: "gracehop",
+    //        title: "Announcing COBOL, a New Programming Language",
+    //        time: cont
+    //    });
 
-        var cadastroID = newPostRef.key();
+    //    var cadastroID = newPostRef.key();
 
         //  setTimeout(function() {
         //    console.log(" Id do cadastro"+ cadastroID)
 //
         //  }, 5000);
 
-      return cadastroID
+      return "cadastroID"
     };
   
-     
+  var salvoCliente = function(user) {
 
+        $scope.cliente = user;
 
+        return $scope.cliente
+     }
+
+  var novofimcliente = function(user) {
+
+        console.log( "limpando cliente anterior")
+        $scope.user = {}
+
+    return  $scope.user
+  }
 
         //  setTimeout(function() {
         //    console.log(" Id do cadastro"+ cadastroID)
@@ -105,6 +116,14 @@ cont ++
         getuser: function() {
           // Simple index lookup
             return $scope.user;
+            },
+        salvarcadastro: function(user) {
+          // Simple index lookup
+            return salvoCliente(user);
+            },
+        novofim: function(user) {
+          // Simple index lookup
+            return novofimcliente(user);
             }
       }
     }]) // fim do factory
@@ -303,11 +322,13 @@ cont ++
     $scope.user = OtherFriends.getuser();
 
 
-    $scope.states = ('    SP    AC  AL  AP  AM  BA  CE  DF  ES  GO  MA  MT  MS  MG  PA  PB  PR  PE  PI  RJ  RN  RS  RO  RR  SC  SP  SE  TO').split(' ').map(function(state) {
+    $scope.states = ('SP AC AL AP AM BA CE DF ES GO MA MT MS MG PA PB PR PE PI RJ RN RS RO RR SC SP SE TO').split(' ').map(function(state) {
         return {abbrev: state};
     });
 
-
+    $scope.countrys = ('Brazil Colombia Argentina').split(' ').map(function(country) {
+        return {abbrev: country};
+    });
 
 
 
@@ -787,11 +808,28 @@ cont ++
         }
     ];
 
+   $scope.salvar = function() {
+
+            $scope.cliente = OtherFriends.salvarcadastro($scope.user);
+
+    }
+
     $scope.cliente = OtherFriends.getcliente();
 
     $scope.user = OtherFriends.getuser();
 
+    $scope.novoCadastro= function(){
+         $scope.user = OtherFriends.novofim();
+       //  $scope.cliente = OtherFriends.getcliente();
 
+        var refArray = new Firebase("https://appvendedorloreal.firebaseio.com/cadastros/");
+            $scope.messages = $firebaseArray(refArray);
+              // add new items to the array
+              // the message is automatically added to our Firebase database!
+             // $scope.addMessage = function() {
+               // firebaseArray.$ref().child($scope.idCliente).set(newData);
+            $scope.messages.$add($scope.cliente);
+    }
 
 
 

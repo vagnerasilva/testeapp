@@ -38,23 +38,20 @@
                     </md-input-container>
             </div>
           </md-content>
-          <pre>{{cliente | json}}</pre>
-          <pre>{{user | json}}</pre>
-<!--        
 
-        <md-content layout-gt-xs="row" layout-padding> 
-            <md-input-container class="md-block" flex-gt-sm="">
+        <md-content layout-gt-xs="" layout-padding> 
+            <md-input-container class="" flex-gt-sm="">
                
                <label> Country</label>
-                <md-select ng-model="user.state">
-                  <md-option ng-repeat="state in states" value="{{state.abbrev}}">
-                    {{state.abbrev}}
+                <md-select ng-model="user.country">
+                  <md-option ng-repeat="country in countrys" value="{{country.abbrev}}">
+                    {{country.abbrev}}
                   </md-option>
                 </md-select>
 
               </md-input-container>
 
-            <md-input-container class="md-block" flex-gt-sm="">
+            <md-input-container class="" flex-gt-sm="">
                
                <label>State </label>
                 <md-select ng-model="user.state">
@@ -65,7 +62,7 @@
 
               </md-input-container>
         </md-content>
-
+<!-- 
 
 
         <md-content layout-gt-xs="row" layout-padding> 
@@ -116,6 +113,8 @@
                             class="icn_arrow">
                     
                     </md-card>
+                              <pre>{{cliente | json}}</pre>
+          <pre>{{user | json}}</pre>
                 </li>
             </ul>
           </div>

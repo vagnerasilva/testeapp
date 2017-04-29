@@ -15,9 +15,11 @@
                                      <h2 class="Hello" >FACE SHAPE </h2>
                                     
                                 </md-card>
+
                             </div>
                         </li>
                     </ul>
+
             </div>
         </div>
 
@@ -38,11 +40,9 @@
 
 
 
-       
+        <!--
         <div class="list animate-fade-slide-in-right">
         
-
-
         </div>
 
         <div class="list half animate-fade-slide-in-right"  ">
@@ -59,6 +59,7 @@
 
                 </div>
             </div>
+           
             <div ui-sref="app.profile" class="card card-gallery item item-text-wrap">
                 <div class="ink dark-bg">
                     <h2>OVAL</h2>
@@ -68,7 +69,9 @@
 
                 </div>
             </div>
+          
         </div>
+      
         <div class="list half animate-fade-slide-in-right  ">
             <div class="space" >
                 
@@ -92,18 +95,49 @@
                 </div>
             </div>
         </div>
+        -->
+        <div class="list half animate-fade-slide-in-right  "  >
+          <md-radio-group ng-model="user.type_skinshape">
+          <div class=" fundo"  ng-repeat="it in skinShapes">  
+              <div class="tile  "> 
+                  <img ng-src='{{it.url}}' />
+                  <div class="text">
+                    <h1>{{it.typeskin}}.</h1>
+                        <h2 class="animate-text">More lorem ipsum bacon ipsum.</h2>
+                        <p class="animate-text">Bacon ipsum dolor amet pork belly tri-tip turducken, pancetta bresaola pork chicken meatloaf. Flank sirloin strip steak prosciutto kevin turducken. </p>
+                        <md-radio-button   ng-value="it.value"
+                                 aria-label="{{it.typeshape}}" > 
+                        </md-radio-button>
+                    <div class="dots">
+                          <span></span>
+                          <span></span>
+                          <span></span>
+                    </div>
+                  </div>
+              </div>
+          </div>
+          </md-radio-group>
+        </div>
+
+
+
         <div>
             <ul>
                 <li>
-                    <md-card ui-sref="app.eyestype"  class="card  cardboxblackslim box_shape  ">
+                    <md-card  ui-sref="app.eyestype"  class="card  cardboxblackslim box_shape  ">
                      <h2 class="START-NOW"  > NEXT </h2>
                      
                      <img   src="img/seta.png"
                             class="icn_arrow">
                     
                     </md-card>
+                      <pre>{{cliente | json}}</pre>
+                      <pre>{{user | json}}</pre>
+                      <pre>{{avatarData | json}}</pre>
                 </li>
             </ul>
         </div>
+
+
     </ion-content>
 </ion-view>

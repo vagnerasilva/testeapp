@@ -3,13 +3,120 @@
 
 angular.module('starter.controllers', [])
 
+
+
+
+
+.factory('OtherFriends', ['$firebase','$firebaseArray', function (
+                                                $firebase,
+                                                $scope,
+                                                $firebaseArray,
+                                                $firebaseAuth,
+                                                $firebaseObject
+                                    ) {
+
+
+
+
+    $scope.cliente={}
+
+    $scope.user = {
+      consumername: 'Developer',
+      country: '',
+      state: '',
+      city: '',
+      ocupation: '',
+      dateofbirth: '',
+      gender: '',
+      email: '',
+      type_skin:'',
+      type_skincolor:'',
+      type_skinshape:'',
+      type_eyes:'',
+      type_lips:'',
+    };
+
+
+
+    var ref = new Firebase("https://appvendedorloreal.firebaseio.com/");
+
+    ref.once("value",function(snapshot){
+      //  console.log(snapshot.val())
+    })
+
+
+
+
+
+
+
+var cont = 0 ;
+cont ++
+   
+   var novoCliente = function() {
+        var postsRef = ref.child("cadastros");
+        var newPostRef = postsRef.push();
+
+        newPostRef.set({
+            author: "gracehop",
+            title: "Announcing COBOL, a New Programming Language",
+            time: cont
+        });
+
+        var cadastroID = newPostRef.key();
+
+        //  setTimeout(function() {
+        //    console.log(" Id do cadastro"+ cadastroID)
+//
+        //  }, 5000);
+
+      return cadastroID
+    };
+  
+     
+
+
+
+        //  setTimeout(function() {
+        //    console.log(" Id do cadastro"+ cadastroID)
+//
+        //  }, 5000);
+
+
+
+
+
+  // we can also chain the two calls together
+ // postsRef.push().set({
+ //   author: "alanisawesome",
+ //   title: "The Turing Machine"
+ // });
+
+ 
+
+      return {
+        novo: function() {
+                return novoCliente();
+            },
+        getcliente: function(idCliente) {
+          // Simple index lookup
+            return $scope.cliente;
+            },
+        getuser: function() {
+          // Simple index lookup
+            return $scope.user;
+            }
+      }
+    }]) // fim do factory
+
 .controller('AppCtrl', function(    $scope,
                                     $ionicModal,
                                     $ionicPopover, 
                                     $timeout,
                                     $firebaseArray,
                                     $firebaseAuth,
-                                    $firebaseObject
+                                    $firebaseObject,
+                                    OtherFriends
                                     ) {
 
 
@@ -30,6 +137,22 @@ angular.module('starter.controllers', [])
           }
     });
 
+    $scope.criarcadastro = function() {
+        console.log("chamei o cadastro ");
+        setTimeout(function() {
+                
+               $scope.idCliente = OtherFriends.novo();  
+              console.log(" Id do cadastro"+ $scope.idCliente)
+            
+
+               // $scope.data = $firebaseObject(refArray);
+              //     $scope.data     = $firebaseArray(refArray);
+              //  console.log($scope.data)
+
+        }, 1000);
+
+    }
+
 
     // Form data for the login modal
     $scope.loginData = {};
@@ -43,6 +166,38 @@ angular.module('starter.controllers', [])
             this.classList.toggle('active');
         });
     }
+
+   var teste = $scope.idCliente
+
+    $scope.incluir = function() {
+         var refArray = new Firebase("https://appvendedorloreal.firebaseio.com/cadastros/");
+       console.log(refArray )
+        console.log("testando incluir itens ")
+        // OtherFriends.atualizar($scope.idCliente);
+            console.log($scope.idCliente);
+         //   teste
+         //   var postcliente = refArray.child();
+         //   $scope.messages = $firebaseArray(ref);
+
+       // $scope.cadastros = $firebaseArray(postcliente);
+       //     $scope.messages.$add({
+        //        text: "testando"
+      //      });
+
+            $scope.messages = $firebaseArray(refArray);
+              // add new items to the array
+              // the message is automatically added to our Firebase database!
+             // $scope.addMessage = function() {
+               // firebaseArray.$ref().child($scope.idCliente).set(newData);
+                $scope.messages.$add($scope.idCliente).then({
+                  text: "$scope.newMessageText"
+                });
+                console.log("aqui")
+            //}
+    }
+
+
+
 
     ////////////////////////////////////////
     // Layout Methods
@@ -120,7 +275,8 @@ angular.module('starter.controllers', [])
                                     $timeout,
                                     $firebaseArray,
                                     $firebaseAuth,
-                                    $firebaseObject
+                                    $firebaseObject,
+                                    OtherFriends
                                     ) {
 
 
@@ -142,24 +298,10 @@ angular.module('starter.controllers', [])
     });
 
 
+    $scope.cliente = OtherFriends.getcliente();
 
+    $scope.user = OtherFriends.getuser();
 
-
-
-
-
-    $scope.user = {
-      title: 'Developer',
-      email: '',
-      firstName: '',
-      lastName: '',
-      company: 'Google',
-      address: '1600 Amphitheatre Pkwy',
-      city: 'Mountain View',
-      state: 'CA',
-      biography: 'Loves kittens, snowboarding, and can type at 130 WPM.\n\nAnd rumor has it she bouldered up Castle Craig!',
-      postalCode: '94043'
-    };
 
     $scope.states = ('    SP    AC  AL  AP  AM  BA  CE  DF  ES  GO  MA  MT  MS  MG  PA  PB  PR  PE  PI  RJ  RN  RS  RO  RR  SC  SP  SE  TO').split(' ').map(function(state) {
         return {abbrev: state};
@@ -527,7 +669,8 @@ angular.module('starter.controllers', [])
                                         ionicMaterialInk,
                                         $firebaseArray,
                                         $firebaseAuth,
-                                        $firebaseObject
+                                        $firebaseObject,
+                                        OtherFriends
                                         ) {
     // Verificando usuario
     firebase.auth().onAuthStateChanged(function(user) {
@@ -545,6 +688,114 @@ angular.module('starter.controllers', [])
             $scope.email=null;
           }
     });
+
+    $scope.skinTypes = [{
+        typeskin: "NORMAL",
+        url: 'img/normal.png',
+        value: 'NORMAL'
+      },{
+        typeskin: "DRY",
+        url: 'img/dry.png',
+        value: 'DRY'
+      },{
+        typeskin: "OILY",
+        url: 'img/oily.png',
+        value: 'OILY'
+      },{
+        typeskin: "COMBINATION",
+        url: 'img/combination.png',
+        value: 'COMBINATION'
+        }
+    ];
+
+    $scope.skinColors = [{
+        typecolor: "FAIR",
+        url: 'img/01_skin-fair@3x.png',
+        value: 'FAIR'
+      },{
+        typecolor: "LIGHT",
+        url: 'img/02-skin-light@3x.png',
+        value: 'LIGHT'
+      },{
+        typecolor: "MEDIUM LIGHT",
+        url: 'img/03_skin-medium@3x.png',
+        value: 'MEDIUM LIGHT'
+      },{
+        typecolor: "MEDIUM TAN",
+        url: 'img/img-skin-m-tan@3x.png',
+        value: 'MEDIUM TAN'
+        }
+    ];
+
+    $scope.skinShapes = [{
+        typeshape: "CIRCLE",
+        url: 'img/01-face-circle@3x.png',
+        value: 'CIRCLE'
+      },{
+        typeshape: "OVAL",
+        url: 'img/02_face-oval@3x.png',
+        value: 'OVAL'
+      },{
+        typeshape: "SQUARE",
+        url: 'img/03_face_shape-square@3x.png',
+        value: 'SQUARE'
+      },{
+        typeshape: "HEART",
+        url: 'img/03_face_shape-square@3x.png',
+        value: 'HEART'
+        }
+    ];
+  
+
+
+ $scope.typeEyes = [{
+        typeeye: "UPTURNED",
+        url: 'img/01_eye-upturned@3x.png',
+        value: 'UPTURNED'
+      },{
+        typeeye: "HOODED",
+        url: 'img/02-eyes-hooded@3x.png',
+        value: 'HOODED'
+      },{
+        typeeye: "DOWNTURNED",
+        url: 'img/03_eye-downturned@3x.png',
+        value: 'DOWNTURNED'
+      },{
+        typeeye: "WIDESET",
+        url: 'img/04_eyes-wide-set@3x.png',
+        value: 'WIDESET'
+        }
+    ];
+
+
+ $scope.typeLips = [{
+        typelip: "SMALL",
+        url: 'img/01_lips-mouth-small@3x.png',
+        value: 'SMALL'
+      },{
+        typeeye: "FULL",
+        url: 'img/04_lips-mouth-full@3x.png',
+        value: 'FULL'
+      },{
+        typeeye: "HEAVY UPPER",
+        url: 'img/05_lips-mouth-heavy-upper@3x.png',
+        value: 'HEAVY UPPER'
+      },{
+        typeeye: "WIDE",
+        url: 'img/03_lips-mouth-wide@3x.png',
+        value: 'WIDE'
+        }
+    ];
+
+    $scope.cliente = OtherFriends.getcliente();
+
+    $scope.user = OtherFriends.getuser();
+
+
+
+
+
+
 
 
     // Set Header
@@ -574,4 +825,5 @@ angular.module('starter.controllers', [])
 
 
 })
+
 ;

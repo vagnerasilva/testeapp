@@ -12,6 +12,7 @@ angular.module('starter', [ 'ionic',
                             'ngMaterial',
                             'ngMessages',
                             'material.svgAssetsCache'
+
                           ])
 
 .run(function(  $ionicPlatform
